@@ -85,7 +85,7 @@ public class ProfileActivity extends Activity {
         writePreferences();
         
 		Intent myIntent = new Intent(this, SyncService.class);
-		myIntent.setAction(SyncService.INTENT_SYNC_IT);
+		myIntent.setAction(SyncService.INTENT_START_TIMER);
 		startService(myIntent);
 	}
 }
