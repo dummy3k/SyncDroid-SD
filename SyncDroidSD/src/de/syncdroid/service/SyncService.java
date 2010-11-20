@@ -1,9 +1,7 @@
 package de.syncdroid.service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -29,22 +27,20 @@ public class SyncService extends Service {
 	
 	public static final String TIMER_TICK = "de.syncdroid.TIMER_TICK";
 	public static final String INTENT_START_TIMER = "de.syncdroid.INTENT_START_TIMER";
+	public static final String INTENT_COLLECT_CELL_IDS = "de.syncdroid.COLLECT_CELL_IDS";
 	
 	private Queue<Job> jobs = new ConcurrentLinkedQueue<Job>();
 	private Set<GsmCellLocation> collectedLocations = new HashSet<GsmCellLocation>();
 
     @Override
     public void onStart(Intent intent, int startId) {
-		Log.d(TAG, "onStart()");
-		Log.d(TAG, "Receive intent= " + intent );
-		Log.d(TAG, "action= " + intent.getAction() );
 
 		// handle intents
 		if( intent != null && intent.getAction() != null ) 
 		{
 			if( intent.getAction().equals(TIMER_TICK)  )
 			{
-				Log.d(TAG, "TIMER_TICK");
+//				Log.d(TAG, "TIMER_TICK");
 //				syncIt();
 				
 				TelephonyManager tm = (TelephonyManager) getSystemService(Activity.TELEPHONY_SERVICE); 
@@ -54,7 +50,7 @@ public class SyncService extends Service {
 		        	collectedLocations.add(location);
 		        }
 			}
-			else if( intent.getAction().equals(INTENT_START_TIMER)  ||
+			else if(intent.getAction().equals(INTENT_START_TIMER) ||
 				intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
 			{
 				Log.d(TAG, "set timer");
@@ -69,7 +65,24 @@ public class SyncService extends Service {
 				PendingIntent pi=PendingIntent.getBroadcast(this, 0, i, 0);
 				mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 
 						SystemClock.elapsedRealtime(), POLL_INTERVALL, pi);
+				
 
+				Intent i2=new Intent(this, SyncBroadcastReceiver.class);
+				i2.setAction("SYNC_IT");
+				PendingIntent pi2=PendingIntent.getBroadcast(this, 0, i2, 0);
+				mgr.cancel(pi2);
+
+			}
+			else if(intent.getAction().equals(INTENT_COLLECT_CELL_IDS))
+			{
+//			}
+//			else if(intent.getAction().equals("de.syncdroid.INTENT_SYNC_IT"))
+//			{
+
+			} else {
+				Log.d(TAG, "unknown intent:");
+				Log.d(TAG, "Receive intent= " + intent );
+				Log.d(TAG, "action= " + intent.getAction() );
 			}
 		}
     }
@@ -84,6 +97,7 @@ public class SyncService extends Service {
 
 	@Override
     public IBinder onBind(Intent intent) {
+		Log.d(TAG, "onBind()");
         return null;
     }
 	

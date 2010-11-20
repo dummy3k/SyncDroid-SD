@@ -5,9 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.telephony.TelephonyManager;
-import android.telephony.gsm.GsmCellLocation;
 
 public class ProfileListActivity extends Activity {
 	static final String TAG = "ProfileListActivity";
@@ -29,6 +30,31 @@ public class ProfileListActivity extends Activity {
         
 		Intent intent = new Intent(this, ProfileTypeActivity.class);
 		startActivity(intent);  
+	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		Log.w(TAG, "onCreateOptionsMenu()");
+		MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.profile_list_menu, menu);
+    	return true;
+    }
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+    	Log.d(TAG, "onOptionsItemSelected()");
+		switch (item.getItemId()) {
+		// We have only one menu option
+		case R.id.item01:
+			Intent intent = new Intent(this, LocationActivity.class);
+			startActivity(intent);
+			break;
+			
+		default:
+			Log.d(TAG, "unknown menu");
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
 
 }

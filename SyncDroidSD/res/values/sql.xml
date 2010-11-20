@@ -9,6 +9,22 @@ CREATE TABLE profiles (
 )
 </string>
 
+<string name="create_table_locations">
+CREATE TABLE locations (
+	id INTEGER PRIMARY KEY,
+	name VARCHAR(255)
+)
+</string>
+
+<string name="create_table_locations_cells">
+CREATE TABLE location_cels (
+	id INTEGER PRIMARY KEY,
+	location_id INTEGER,
+	cid INTEGER,
+	loc INTEGER
+)
+</string>
+
 <string name="create_table_synclog">
 CREATE TABLE synclogs (
 	id INTEGER PRIMARY KEY,
