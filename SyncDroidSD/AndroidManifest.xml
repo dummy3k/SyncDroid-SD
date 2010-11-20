@@ -13,16 +13,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileConfigureFtpActivity"
-                  android:label="@string/app_name">
-            <intent-filter>
-            </intent-filter>
-        </activity>
-        <activity android:name=".ProfileTypeActivity"
-                  android:label="@string/app_name">
-            <intent-filter>
-            </intent-filter>
-        </activity>
+        <activity android:name=".ProfileConfigureFtpActivity" android:label="@string/app_name"></activity>
+        <activity android:name=".ProfileTypeActivity" android:label="@string/app_name"></activity>
+        <activity android:name=".LocationActivity" android:label="@string/app_name"></activity>
         
     	<service android:name="de.syncdroid.service.SyncService"/>
 
@@ -50,4 +43,5 @@
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
 </manifest> 
