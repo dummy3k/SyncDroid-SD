@@ -25,7 +25,10 @@
                 <action android:name="android.intent.action.ACTION_BOOT_COMPLETED" />
             </intent-filter>
             <intent-filter>
-                <action android:name="de.syncdroid.INTENT_SYNC_IT" />
+                <action android:name="de.syncdroid.service.SyncService" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="de.syncdroid.service.SyncBroadcastReceiver" />
             </intent-filter>
         </receiver>
     </application>
