@@ -1,20 +1,19 @@
 package de.syncdroid;
 
-import android.app.Activity;
+import roboguice.activity.GuiceActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-public class ProfileListActivity extends Activity {
+public class ProfileListActivity extends GuiceActivity {
 	static final String TAG = "ProfileListActivity";
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_list_activity);
-
+        setContentView(R.layout.profile_list_activity);        
     }
 	
 	public void onButtonAddProfileClick(View view) {

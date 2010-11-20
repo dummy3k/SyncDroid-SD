@@ -1,26 +1,7 @@
 package de.syncdroid;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-
-import de.syncdroid.service.SyncService;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Service;
-import android.appwidget.AppWidgetManager;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.DialogInterface;
+import roboguice.activity.GuiceActivity;
+import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,29 +9,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class ProfileConfigureFtpActivity extends Activity {
+import com.google.inject.Inject;
+
+import de.syncdroid.db.service.ProfileService;
+import de.syncdroid.service.SyncService;
+
+public class ProfileConfigureFtpActivity extends GuiceActivity  {
 	static final String TAG = "ProfileActivity";
 	
-	public static EditText txtLocalDirectory;
-	public static EditText txtFtpHost;
-	public static EditText txtFtpUsername;
-	public static EditText txtFtpPassword;
-	public static EditText txtFtpPath;
+	@InjectView(R.id.EditText01)             EditText txtLocalDirectory;
+	@InjectView(R.id.EditText02)             EditText txtFtpHost;
+	@InjectView(R.id.EditText03)             EditText txtFtpUsername;
+	@InjectView(R.id.EditText04)             EditText txtFtpPassword;
+	@InjectView(R.id.EditText05)             EditText txtFtpPath;
+	
+
+    @Inject                            		 ProfileService profileService; 
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_configure_ftp_activity);
-        startService(new Intent(this, SyncService.class));
-
-        // short access for text edit controls
-        txtLocalDirectory = (EditText) findViewById(R.id.EditText01);
-        txtFtpHost = (EditText) findViewById(R.id.EditText02);
-        txtFtpUsername = (EditText) findViewById(R.id.EditText03);
-        txtFtpPassword = (EditText) findViewById(R.id.EditText04);
-        txtFtpPath = (EditText) findViewById(R.id.EditText05);
-                
+        startService(new Intent(this, SyncService.class));                
         readPrefereces();
     }
 

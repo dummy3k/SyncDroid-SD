@@ -1,12 +1,12 @@
 package de.syncdroid;
 
-import android.app.Activity;
+import roboguice.activity.GuiceActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-public class ProfileTypeActivity extends Activity {
+public class ProfileTypeActivity extends GuiceActivity {
 	static final String TAG = "ProfileTypeActivity";
 	
 	@Override

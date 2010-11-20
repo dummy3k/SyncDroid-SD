@@ -2,7 +2,7 @@
 <resources>
 <string name="create_table_profiles">
 CREATE TABLE profiles (
-	id INTEGER PRIMARY KEY,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name VARCHAR(255),
 	onlyIfWifi  BOOLEAN,
 	lastSync DATETIME
@@ -11,7 +11,7 @@ CREATE TABLE profiles (
 
 <string name="create_table_synclog">
 CREATE TABLE synclogs (
-	id INTEGER PRIMARY KEY,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	profile_id INTEGER,
 	syncDate DATETIME,
 	message VARCHAR(255)
