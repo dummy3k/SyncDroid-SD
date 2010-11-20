@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, ProfileActivity!</string>
+    <string name="ftp_path">FTP Path</string>
+    <string name="ftp_password">FTP Password</string>
+    <string name="ftp_username">FTP Username</string>
+    <string name="ftp_host">FTP Host</string>
+    <string name="local_directory">Local Directory</string>
     <string name="app_name">SyncDroid SD</string>
 </resources>

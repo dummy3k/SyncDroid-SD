@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<Button android:layout_height="wrap_content" android:text="Sync it!" android:layout_width="fill_parent" android:id="@+id/ButtonSyncIt" android:drawingCacheQuality="high" android:onClick="onButtonSyncItClick"></Button>
+<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/local_directory"></TextView><EditText android:id="@+id/EditText01" android:layout_height="wrap_content" android:layout_width="fill_parent"></EditText>
+
+<TextView android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ftp_host"></TextView>
+<EditText android:id="@+id/EditText02" android:layout_height="wrap_content" android:layout_width="fill_parent"></EditText>
+<TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ftp_username"></TextView>
+<EditText android:id="@+id/EditText03" android:layout_height="wrap_content" android:layout_width="fill_parent"></EditText>
+<TextView android:id="@+id/TextView04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ftp_password"></TextView>
+<EditText android:id="@+id/EditText04" android:layout_height="wrap_content" android:layout_width="fill_parent"></EditText>
+<TextView android:id="@+id/TextView05" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ftp_path"></TextView>
+<EditText android:id="@+id/EditText05" android:layout_height="wrap_content" android:layout_width="fill_parent"></EditText>
+</LinearLayout>
