@@ -10,6 +10,8 @@ import java.net.UnknownHostException;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+
 import de.syncdroid.service.SyncService;
 
 import android.app.Activity;
@@ -26,7 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class ProfileActivity extends Activity {
+public class ProfileConfigureFtpActivity extends Activity {
 	static final String TAG = "ProfileActivity";
 	
 	public static EditText txtLocalDirectory;
@@ -39,7 +41,7 @@ public class ProfileActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_activity);
+        setContentView(R.layout.profile_configure_ftp_activity);
         startService(new Intent(this, SyncService.class));
 
         // short access for text edit controls

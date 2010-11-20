@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+
+<Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/add_profile" android:onClick="onButtonAddProfileClick"></Button>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+	
+	
+	
+</LinearLayout>
+
+<ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"
+    android:layout_weight="1"
+	></ListView>
+
+<View
+    android:layout_width="fill_parent"
+    android:layout_height="2dip"
+    android:background="@color/white"
+	></View>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+	<TextView android:id="@+id/TextView01" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+	    android:layout_weight="1"
+		android:textStyle="bold"
+		android:text="@string/profile_count"></TextView>
+	<TextView android:text="@+id/txtOverallSaldo" android:id="@+id/txtOverallSaldo" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:padding="5px"
+		android:textStyle="bold"
+		></TextView>
+</LinearLayout>
+
+
+
+</LinearLayout>

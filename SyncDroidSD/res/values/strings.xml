@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="profile_name">Profile Name</string>
+    <string name="ftp_server">FTP Server</string>
+    <string name="select_profile_type">Select Profile Type</string>
+    <string name="profile_count">Profile Count</string>
+    <string name="add_profile">Add profile</string>
     <string name="ftp_path">FTP Path</string>
     <string name="ftp_password">FTP Password</string>
     <string name="ftp_username">FTP Username</string>

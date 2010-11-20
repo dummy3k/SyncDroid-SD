@@ -36,7 +36,7 @@ public class FtpCopyJob implements Job {
 	public FtpCopyJob(Context context) {
 		this.context = context;
 		SharedPreferences prefs = context.getSharedPreferences(
-				ProfileActivity.TAG, Activity.MODE_PRIVATE);
+				ProfileConfigureFtpActivity.TAG, Activity.MODE_PRIVATE);
 
         localPath = prefs.getString(FtpCopyJob.PREF_LOCAL_DIRECTORY, "");
         host = prefs.getString(FtpCopyJob.PREF_FTP_HOST, "");
@@ -102,7 +102,7 @@ public class FtpCopyJob implements Job {
 		}
 
 		Log.d(TAG, "upload success");
-	    SharedPreferences.Editor ed = context.getSharedPreferences(ProfileActivity.TAG, Activity.MODE_PRIVATE).edit();
+	    SharedPreferences.Editor ed = context.getSharedPreferences(ProfileConfigureFtpActivity.TAG, Activity.MODE_PRIVATE).edit();
 	    ed.putLong(FtpCopyJob.PREF_LASTSYNC, new Date().getTime());
 	    ed.commit();
 	}

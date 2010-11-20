@@ -40,10 +40,12 @@ public class SyncService extends Service {
 				intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
 			{
 				Log.d(TAG, "set timer");
-				AlarmManager mgr=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-				Intent i=new Intent(this, SyncService.class);
+				AlarmManager mgr = (AlarmManager) 
+						getSystemService(Context.ALARM_SERVICE);
+				
+				Intent i = new Intent(this, SyncService.class);
 				i.setAction(INTENT_SYNC_IT);
-				PendingIntent pi=PendingIntent.getBroadcast(this, 0, i, 0);
+				PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
 
 				mgr.setRepeating(AlarmManager.RTC_WAKEUP, 
 						System.currentTimeMillis() + 1000, 1000, pi);
