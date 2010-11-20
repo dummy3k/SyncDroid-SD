@@ -10,10 +10,16 @@ import java.net.UnknownHostException;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import de.syncdroid.service.SyncService;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,27 +27,20 @@ import android.view.View;
 import android.widget.EditText;
 
 public class ProfileActivity extends Activity {
-	private static final String TAG = "ProfileActivity";
+	static final String TAG = "ProfileActivity";
 	
-	private EditText txtLocalDirectory;
-	private EditText txtFtpHost;
-	private EditText txtFtpUsername;
-	private EditText txtFtpPassword;
-	private EditText txtFtpPath;
+	public static EditText txtLocalDirectory;
+	public static EditText txtFtpHost;
+	public static EditText txtFtpUsername;
+	public static EditText txtFtpPassword;
+	public static EditText txtFtpPath;
 	
-	private static final String PREF_LOCAL_DIRECTORY = "pref_local_directory";
-	private static final String PREF_FTP_HOST = "pref_ftp_host";
-	private static final String PREF_FTP_USERNAMAE = "pref_ftp_username";
-	private static final String PREF_FTP_PASSWORD = "pref_ftp_password";
-	private static final String PREF_FTP_PATH = "pref_ftp_path";
-	
-    @Override
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
-        
-        
+        startService(new Intent(this, SyncService.class));
 
         // short access for text edit controls
         txtLocalDirectory = (EditText) findViewById(R.id.EditText01);
@@ -50,70 +49,43 @@ public class ProfileActivity extends Activity {
         txtFtpPassword = (EditText) findViewById(R.id.EditText04);
         txtFtpPath = (EditText) findViewById(R.id.EditText05);
                 
-        // read saved form values from preferences
-        SharedPreferences prefs = getSharedPreferences(TAG,MODE_PRIVATE);
-        txtLocalDirectory.setText(prefs.getString(PREF_LOCAL_DIRECTORY, ""));
-        txtFtpHost.setText(prefs.getString(PREF_FTP_HOST, ""));
-        txtFtpUsername.setText(prefs.getString(PREF_FTP_USERNAMAE, ""));
-        txtFtpPassword.setText(prefs.getString(PREF_FTP_PASSWORD, ""));
-        txtFtpPath.setText(prefs.getString(PREF_FTP_PATH, ""));
+        readPrefereces();
     }
+
+	private void readPrefereces() {
+		// read saved form values from preferences
+        SharedPreferences prefs = getSharedPreferences(TAG,MODE_PRIVATE);
+        txtLocalDirectory.setText(prefs.getString(FtpCopyJob.PREF_LOCAL_DIRECTORY, ""));
+        txtFtpHost.setText(prefs.getString(FtpCopyJob.PREF_FTP_HOST, ""));
+        txtFtpUsername.setText(prefs.getString(FtpCopyJob.PREF_FTP_USERNAMAE, ""));
+        txtFtpPassword.setText(prefs.getString(FtpCopyJob.PREF_FTP_PASSWORD, ""));
+        txtFtpPath.setText(prefs.getString(FtpCopyJob.PREF_FTP_PATH, ""));
+	}
 
     protected void onPause() {
         Log.i(TAG, "onPause()");
         super.onPause();
 
-     // save form values to preferences
-        SharedPreferences.Editor ed = getSharedPreferences(TAG, MODE_PRIVATE).edit();
-        ed.putString(PREF_LOCAL_DIRECTORY, txtLocalDirectory.getText().toString());
-        ed.putString(PREF_FTP_HOST, txtFtpHost.getText().toString());
-        ed.putString(PREF_FTP_USERNAMAE, txtFtpUsername.getText().toString());
-        ed.putString(PREF_FTP_PASSWORD, txtFtpPassword.getText().toString());
-        ed.putString(PREF_FTP_PATH, txtFtpPath.getText().toString());
-        ed.commit();
+    	writePreferences();
     }
+
+	private void writePreferences() {
+		// save form values to preferences
+		    SharedPreferences.Editor ed = getSharedPreferences(TAG, MODE_PRIVATE).edit();
+		    ed.putString(FtpCopyJob.PREF_LOCAL_DIRECTORY, txtLocalDirectory.getText().toString());
+		    ed.putString(FtpCopyJob.PREF_FTP_HOST, txtFtpHost.getText().toString());
+		    ed.putString(FtpCopyJob.PREF_FTP_USERNAMAE, txtFtpUsername.getText().toString());
+		    ed.putString(FtpCopyJob.PREF_FTP_PASSWORD, txtFtpPassword.getText().toString());
+		    ed.putString(FtpCopyJob.PREF_FTP_PATH, txtFtpPath.getText().toString());
+		    ed.commit();
+	}
+    
 	public void onButtonSyncItClick(View view) {
-		String localDirectory = txtLocalDirectory.getText().toString();
-		String host = txtFtpHost.getText().toString();
-		String user = txtFtpUsername.getText().toString();
-		String password = txtFtpPassword.getText().toString();
-		String path = txtFtpPath.getText().toString();
-		
-		try {
-			// connect to ftp server
-			FTPClient ftpClient = new FTPClient();
-			ftpClient.connect(InetAddress.getByName(host));
-			ftpClient.login(user, password);
-			ftpClient.changeWorkingDirectory(path);
-			ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-			
-			File localFile = new File(localDirectory);
-			
-			BufferedInputStream inputStream=null;
-			inputStream = new BufferedInputStream(
-					new FileInputStream(localFile));
-			ftpClient.enterLocalPassiveMode();
-			ftpClient.storeFile(localFile.getName(), inputStream);
-			inputStream.close();
-			
-			// disconnect from ftp server
-			ftpClient.logout();
-			ftpClient.disconnect();
-		} catch(Exception e) {
-
-			Log.e(TAG, "whoa, exception: " + e);
-			
-			 AlertDialog.Builder adb=new AlertDialog.Builder(ProfileActivity.this);
-			 
-			 Throwable cause = e;
-			 while(cause.getCause() != null) {
-				 cause = cause.getCause();
-			 }
-			 
-			 adb.setMessage(cause.getClass().getSimpleName() + ": " + cause.getMessage());
-			 adb.setNegativeButton("whatever", null);
-			 adb.show();
-		}
-
+        Log.i(TAG, "onButtonSyncItClick()");
+        writePreferences();
+        
+		Intent myIntent = new Intent(this, SyncService.class);
+		myIntent.setAction(SyncService.INTENT_SYNC_IT);
+		startService(myIntent);
 	}
 }
