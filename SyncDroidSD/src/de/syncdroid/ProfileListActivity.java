@@ -1,7 +1,8 @@
 package de.syncdroid;
 
-import de.syncdroid.service.SyncService;
-import android.app.Activity;
+import java.util.List;
+
+import roboguice.activity.GuiceActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,31 +11,61 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class ProfileListActivity extends Activity {
+import com.google.inject.Inject;
+
+import de.syncdroid.db.model.Profile;
+import de.syncdroid.db.service.ProfileService;
+import de.syncdroid.service.SyncService;
+
+public class ProfileListActivity extends GuiceActivity {
 	static final String TAG = "ProfileListActivity";
+	
+	@Inject private ProfileService profileService;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate()");
+        Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_list_activity);
+        setContentView(R.layout.profile_list);
         
 		Intent myIntent = new Intent(this, SyncService.class);
 		myIntent.setAction(SyncService.INTENT_START_TIMER);
 		startService(myIntent);
-
+		
+		dumpProfiles();
+		
     }
+
+    protected void onPause() {
+        Log.i(TAG, "onPause()");
+        super.onPause();
+
+        dumpProfiles();
+    }
+    
+	private void dumpProfiles() {
+		List<Profile> profiles = profileService.list();
+		
+		Log.i(TAG, "-------- Profile DUMP ---------");
+		for(Profile profile : profiles) {
+			Log.i(TAG, "profile #" + profile.getId() + ": " 
+					+ profile.getName());
+		}
+		Log.i(TAG, "-------------------------------");
+	}
 	
 	public void onButtonAddProfileClick(View view) {
-        Log.i(TAG, "onButtonSyncItClick()");
+        Log.d(TAG, "onButtonSyncItClick()");
         
-		Intent intent = new Intent(this, ProfileTypeActivity.class);
+		Intent intent = new Intent(this, ProfileEditActivity.class);
+		intent.putExtra(ProfileEditActivity.PARAM_ACTION, 
+				ProfileEditActivity.ACTION_CREATE);
 		startActivity(intent);  
 	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		Log.w(TAG, "onCreateOptionsMenu()");
+		Log.d(TAG, "onCreateOptionsMenu()");
 		MenuInflater inflater = getMenuInflater();
     	inflater.inflate(R.menu.profile_list_menu, menu);
     	return true;

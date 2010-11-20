@@ -4,6 +4,11 @@
 CREATE TABLE profiles (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name VARCHAR(255),
+	hostname VARCHAR(255),
+	username VARCHAR(255),
+	password VARCHAR(255),
+	localPath VARCHAR(255),
+	remotePath VARCHAR(255),
 	onlyIfWifi  BOOLEAN,
 	lastSync DATETIME
 )

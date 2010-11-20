@@ -8,5 +8,7 @@ public interface Service<T> {
 	
 	void save(T obj);
 	void update(T obj);
+	
+	void saveOrUpdate(T obj);
 	void delete(T obj);
 }
