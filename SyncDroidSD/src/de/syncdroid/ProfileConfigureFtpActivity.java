@@ -85,9 +85,5 @@ public class ProfileConfigureFtpActivity extends Activity {
 	public void onButtonSyncItClick(View view) {
         Log.i(TAG, "onButtonSyncItClick()");
         writePreferences();
-        
-		Intent myIntent = new Intent(this, SyncService.class);
-		myIntent.setAction(SyncService.INTENT_START_TIMER);
-		startService(myIntent);
 	}
 }
