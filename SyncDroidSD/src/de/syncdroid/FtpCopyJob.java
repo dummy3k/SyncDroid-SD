@@ -3,8 +3,11 @@ package de.syncdroid;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -44,42 +47,98 @@ public class FtpCopyJob implements Job {
         password = prefs.getString(FtpCopyJob.PREF_FTP_PASSWORD, "");
         remotePath = prefs.getString(FtpCopyJob.PREF_FTP_PATH, "");
         lastSync = prefs.getLong(FtpCopyJob.PREF_LASTSYNC, -1);
-        
+
         if(remotePath.startsWith("/")) {
         	remotePath = remotePath.substring(1);
         }
 	}
+
+	private class RemoteFile {
+		public Boolean isDirectory;
+		public String name;
+		public File source;
+		public Long newest;
+		public List<RemoteFile> children = new ArrayList<FtpCopyJob.RemoteFile>();
+		
+//		public long getNewest() {
+////			Long newest = 0L;
+////			for (RemoteFile item : fileList) {
+////				newest = Math.max(newest, item.lastModified);
+////			}
+//			
+//		}
+	}
+	
+	private RemoteFile buildTree(File dir) {
+		RemoteFile here = new RemoteFile();
+		here.isDirectory = true;
+		here.name = dir.getName();
+		here.source = dir;
+		here.newest = 0L;
+
+		for (String item : dir.list()) {
+			File fileItem = new File(dir, item);
+			if (fileItem.isDirectory()) {
+				RemoteFile tmp = buildTree(fileItem);
+				here.children.add(tmp);
+				here.newest = Math.max(here.newest, tmp.newest);
+			} else {
+				RemoteFile aFile = new RemoteFile();
+				aFile.isDirectory = false;
+				aFile.name = item;
+				aFile.source = fileItem;
+				here.children.add(aFile);
+				here.newest = Math.max(here.newest, fileItem.lastModified());
+			}
+		}
+		
+		return here;
+	}
+
+	private void uploadFiles(RemoteFile dir, FTPClient ftpClient, Long lastUpload) throws IOException {
+		if (!ftpClient.changeWorkingDirectory(dir.name)) {
+			if (!ftpClient.makeDirectory(dir.name)) {
+				Log.e(TAG, "could not create directory");
+				return;
+			} else if (!ftpClient.changeWorkingDirectory(dir.name)) {
+				Log.e(TAG, "could not change directory");
+				return;
+			}
+		}
+		
+		for (RemoteFile item:dir.children) {
+			if (item.isDirectory) {
+				uploadFiles(item, ftpClient, lastUpload);
+			} else if (item.source.lastModified() > lastUpload) {
+				BufferedInputStream inputStream=null;
+				inputStream = new BufferedInputStream(
+						new FileInputStream(item.source));
+				ftpClient.enterLocalPassiveMode();
+				ftpClient.storeFile(item.name, inputStream);
+				inputStream.close();
+			}
+		}
+		ftpClient.changeToParentDirectory();
+	}
 	
 	@Override
 	public void execute() {
-		File localFile = new File(localPath);
-		Log.d(TAG, "localFile Time: " + localFile.lastModified());
 		Log.d(TAG, "lastSync: " + lastSync);
-		
-		if (lastSync > 0 && localFile.lastModified() <= lastSync) {
-			Log.d(TAG, "nothing to do");
-			return;
-		}
-
 		try {
+			RemoteFile rootRemote = buildTree(new File(localPath));
+
+			if (lastSync > 0 && rootRemote.newest <= lastSync) {
+				Log.d(TAG, "nothing to do");
+				return;
+			}
+
 			// connect to ftp server
 			FTPClient ftpClient = new FTPClient();
 			ftpClient.connect(InetAddress.getByName(host));
 			ftpClient.login(username, password);
-			ftpClient.changeWorkingDirectory(remotePath);
 			ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-			
-			
-			BufferedInputStream inputStream=null;
-			inputStream = new BufferedInputStream(
-					new FileInputStream(localFile));
-			ftpClient.enterLocalPassiveMode();
-			
-			String filename = localFile.getName();
-			Log.i(TAG, "storing file " + filename);
-			ftpClient.storeFile(filename, inputStream);
-			
-			inputStream.close();
+
+			uploadFiles(rootRemote, ftpClient, lastSync);
 			
 			// disconnect from ftp server
 			ftpClient.logout();
