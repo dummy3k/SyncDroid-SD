@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="create_table_profiles">
+CREATE TABLE profiles (
+	id INTEGER PRIMARY KEY,
+	name VARCHAR(255),
+	onlyIfWifi  BOOLEAN,
+	lastSync DATETIME
+)
+</string>
+
+<string name="create_table_synclog">
+CREATE TABLE synclogs (
+	id INTEGER PRIMARY KEY,
+	profile_id INTEGER,
+	syncDate DATETIME,
+	message VARCHAR(255)
+)
+</string>
+
+<string name="insert_table_profiles">
+INSERT INTO profiles (name, onlyIfWifi, lastSync)
+VALUES (?, ?, ?)
+</string>
+
+<!-- 
+<string name="update004_001">
+ALTER TABLE transactions 
+ADD COLUMN memo STRING;
+</string>
+ -->
+ 
+</resources>

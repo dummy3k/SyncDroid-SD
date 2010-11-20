@@ -13,14 +13,14 @@ public class ProfileTypeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_list_activity);
+        setContentView(R.layout.profile_type_activity);
 
     }
 
-	public void onButtonAddProfileClick(View view) {
+	public void onButtonFtpProfileClick(View view) {
         Log.i(TAG, "onButtonSyncItClick()");
         
-		Intent intent = new Intent(this, ProfileTypeActivity.class);
+		Intent intent = new Intent(this, ProfileConfigureFtpActivity.class);
 		startActivity(intent);  
 	}
 
