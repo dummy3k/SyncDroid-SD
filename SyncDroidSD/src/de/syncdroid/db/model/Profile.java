@@ -8,6 +8,14 @@ public class Profile implements Model{
 	private Date lastSync;
 	private Boolean onlyIfWifi = false;
 	
+	private String hostname;
+	private String username;
+	private String password;
+	private Integer port;
+	private String localPath;
+	private String remotePath;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -31,6 +39,42 @@ public class Profile implements Model{
 	}
 	public void setOnlyIfWifi(Boolean onlyIfWifi) {
 		this.onlyIfWifi = onlyIfWifi;
+	}
+	public String getHostname() {
+		return hostname;
+	}
+	public void setHostname(String hostname) {
+		this.hostname = hostname;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Integer getPort() {
+		return port;
+	}
+	public void setPort(Integer port) {
+		this.port = port;
+	}
+	public String getLocalPath() {
+		return localPath;
+	}
+	public void setLocalPath(String localPath) {
+		this.localPath = localPath;
+	}
+	public String getRemotePath() {
+		return remotePath;
+	}
+	public void setRemotePath(String remotePath) {
+		this.remotePath = remotePath;
 	}
 	
 	
