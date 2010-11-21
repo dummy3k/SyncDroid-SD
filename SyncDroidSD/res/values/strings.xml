@@ -12,4 +12,9 @@
     <string name="ftp_host">FTP Host</string>
     <string name="local_directory">Local Directory</string>
     <string name="app_name">SyncDroid SD</string>
+	<string name="remote_service_started">Remote Service started</string>
+	<string name="remote_service_stopped">Remote Service stopped</string>
+	<string name="remote_service_connected">Remote Service connected</string>
+	<string name="remote_service_disconnected">Remote Service disconnected</string>
+	<string name="remote_service_label">Remote Service Label</string>
 </resources>

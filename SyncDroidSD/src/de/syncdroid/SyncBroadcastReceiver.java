@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-public class SyncBroadcastReceiver extends BroadcastReceiver{
+public class SyncBroadcastReceiver extends BroadcastReceiver {
 	private static final String TAG = "SyncBroadcastReceiver";
 
 	public void onReceive(Context context, Intent intent ) {
