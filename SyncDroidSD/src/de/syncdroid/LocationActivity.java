@@ -3,15 +3,12 @@ package de.syncdroid;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.inject.Binding;
-
 import de.syncdroid.service.SyncService;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;

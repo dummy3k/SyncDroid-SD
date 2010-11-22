@@ -77,7 +77,7 @@ public class SyncService extends Service {
 		{
 			if( intent.getAction().equals(TIMER_TICK)  )
 			{
-				Log.d(TAG, "TIMER_TICK");
+//				Log.d(TAG, "TIMER_TICK");
 //				syncIt();
 				
 				TelephonyManager tm = (TelephonyManager) getSystemService(Activity.TELEPHONY_SERVICE); 
@@ -85,8 +85,8 @@ public class SyncService extends Service {
 		        if (!collectedLocations.contains(location)) {
 		        	Log.i(TAG, "new cell location: " + location);
 		        	collectedLocations.add(location);
+			        sendMessageToClients(FOUND_NEW_CELL, location);
 		        }
-		        sendMessageToClients(FOUND_NEW_CELL, location);
 			}
 			else if(intent.getAction().equals(INTENT_START_TIMER) ||
 				intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))

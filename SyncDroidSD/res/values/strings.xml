@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add_new">Add New</string>
+    <string name="save">Save</string>
     <string name="profile_options">Profile Options</string>
     <string name="only_if_wifi">Only if Wifi is available</string>
     <string name="define_location">Define Location</string>

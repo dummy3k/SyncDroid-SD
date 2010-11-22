@@ -6,16 +6,10 @@
     android:orientation="vertical"
   	>
   
-<Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/save"></Button>
-
-<EditText android:text="@+id/EditText01" android:id="@+id/EditText01" android:layout_height="wrap_content" android:layout_width="fill_parent"></EditText>
-
+<Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/add_new" android:onClick="onAddNewClick"></Button>
 
 <ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"
     android:layout_weight="1"
 	></ListView>
-  
-
-
 
 </LinearLayout>

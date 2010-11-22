@@ -2,7 +2,7 @@ package de.syncdroid.db.model;
 
 import java.util.Date;
 
-public class Profile implements Model{
+public class Profile implements Model {
 	private Long id;
 	private String name;
 	private Date lastSync;
@@ -76,6 +76,4 @@ public class Profile implements Model{
 	public void setRemotePath(String remotePath) {
 		this.remotePath = remotePath;
 	}
-	
-	
 }

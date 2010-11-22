@@ -77,7 +77,7 @@ public class ProfileListActivity extends GuiceActivity {
 		switch (item.getItemId()) {
 		// We have only one menu option
 		case R.id.item01:
-			Intent intent = new Intent(this, LocationActivity.class);
+			Intent intent = new Intent(this, LocationListActivity.class);
 			startActivity(intent);
 			break;
 			
